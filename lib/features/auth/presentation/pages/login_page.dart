@@ -1,5 +1,6 @@
 // lib/features/auth/presentation/pages/login_page.dart
 import 'package:coffeshop/core/routes/app_routes.dart';
+import 'package:coffeshop/features/profile/presentation/viewmodel/profile_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/utils/view_state.dart';
@@ -30,7 +31,36 @@ class _LoginPageState extends State<LoginPage> {
     final ok = await vm.login(_emailCtrl.text.trim(), _passCtrl.text);
     if (!mounted) return;
     if (ok) {
-      Navigator.pushReplacementNamed(context, AppRoutes.orderList);
+        
+      await context.read<ProfileViewModel>().loadProfile();
+    
+      if (!mounted) return;
+    
+      final profileVM = context.read<ProfileViewModel>();
+    
+      // ADMIN → lista normal
+      if (profileVM.isAdmin) {
+        Navigator.pushReplacementNamed(
+          context,
+          AppRoutes.orderList,
+        );
+      }
+    
+      // CASHIER → vista cajero
+      else if (profileVM.isCashier) {
+        Navigator.pushReplacementNamed(
+          context,
+          '/cashier',
+        );
+      }
+    
+      // WAITER → crear pedidos
+      else {
+        Navigator.pushReplacementNamed(
+          context,
+          'orderList',
+        );
+      }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

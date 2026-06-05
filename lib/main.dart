@@ -7,56 +7,37 @@ import 'core/di/injector.dart';
 import 'core/routes/app_router.dart';
 import 'core/theme/app_theme.dart';
 
-final GlobalKey<NavigatorState> navigatorKey =
-    GlobalKey<NavigatorState>();
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final prefs =
-      await SharedPreferences.getInstance();
+  final prefs = await SharedPreferences.getInstance();
 
-  final token =
-      prefs.getString('access_token');
+  final token = prefs.getString('access_token');
 
-  final hasToken =
-      token != null && token.isNotEmpty;
+  final hasToken = token != null && token.isNotEmpty;
 
-  final initialRoute =
-      hasToken
-          ? AppRoutes.orderList
-          : AppRoutes.login;
+  final initialRoute = hasToken ? AppRoutes.orderList : AppRoutes.login;
 
   Injector.init();
 
-  runApp(
-    RestaurantApp(
-      initialRoute: initialRoute,
-    ),
-  );
+  runApp(RestaurantApp(initialRoute: initialRoute));
 }
 
 class RestaurantApp extends StatelessWidget {
   final String initialRoute;
 
-  const RestaurantApp({
-    super.key,
-    required this.initialRoute,
-  });
+  const RestaurantApp({super.key, required this.initialRoute});
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider.value(
-          value: Injector.authViewModel,
-        ),
-        ChangeNotifierProvider.value(
-          value: Injector.productViewModel,
-        ),
-        ChangeNotifierProvider.value(
-          value: Injector.orderViewModel,
-        ),
+        ChangeNotifierProvider.value(value: Injector.authViewModel),
+        ChangeNotifierProvider.value(value: Injector.productViewModel),
+        ChangeNotifierProvider.value(value: Injector.orderViewModel),
+        ChangeNotifierProvider.value(value: Injector.profileViewModel),
       ],
 
       child: MaterialApp(
@@ -71,8 +52,7 @@ class RestaurantApp extends StatelessWidget {
 
         initialRoute: initialRoute,
 
-        onGenerateRoute:
-            AppRouter.generate,
+        onGenerateRoute: AppRouter.generate,
       ),
     );
   }

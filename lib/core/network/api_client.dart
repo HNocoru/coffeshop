@@ -23,7 +23,7 @@ class ApiClient {
 
   static String get baseUrl {
     if (Platform.isAndroid) {
-      return 'https://l7kjcnjq-8080.use2.devtunnels.ms';
+      return 'https://l7kjcnjq-8000.use2.devtunnels.ms';
     }
     return 'http://127.0.0.1:8000';
   }
@@ -97,18 +97,18 @@ class ApiClient {
     try {
       final headers = await _headers(requireAuth: requireAuth);
       final url = Uri.parse('$baseUrl$path');
-  
+
       debugPrint('➡️ POST $url');
       debugPrint('HEADERS: $headers');
       debugPrint('BODY(SEND): ${jsonEncode(body)}');
-  
+
       final response = await http
           .post(url, headers: headers, body: jsonEncode(body))
           .timeout(const Duration(seconds: 15));
-  
+
       debugPrint('⬅️ STATUS ${response.statusCode} POST $url');
       debugPrint('BODY(RECV): ${response.body}');
-  
+
       return _parse(response);
     } on SocketException {
       throw ApiException('No se pudo conectar con el servidor');

@@ -186,14 +186,14 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
                               return;
                             }
 
-                            final success = await orderVM.createOrder(
+                            await orderVM.createOrder(
                               table,
                               notesCtrl.text.trim().isEmpty
                                   ? null
                                   : notesCtrl.text.trim(),
                             );
 
-                            if (success && context.mounted) {
+                            if (context.mounted) {
                               Navigator.pushReplacementNamed(context, '/orders');
                             }
                           },

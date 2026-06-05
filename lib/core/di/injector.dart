@@ -9,6 +9,9 @@ import 'package:coffeshop/features/orders/presentation/viewmodels/order_viewmode
 import 'package:coffeshop/features/products/data/repositories/product_repository_impl.dart';
 import 'package:coffeshop/features/products/domain/repositories/product_repository.dart';
 import 'package:coffeshop/features/products/presentation/viewmodels/product_viewmodel.dart';
+import 'package:coffeshop/features/profile/data/repositories/profile_repository_impl.dart';
+import 'package:coffeshop/features/profile/domain/repository/profile_repository.dart';
+import 'package:coffeshop/features/profile/presentation/viewmodel/profile_viewmodel.dart';
 
 class Injector {
   Injector._();
@@ -23,6 +26,9 @@ class Injector {
 
   static final OrderRepository orderRepository = OrderRepositoryImpl(apiClient);
   static final OrderViewModel  orderViewModel  = OrderViewModel(orderRepository);
+
+  static final ProfileRepository profileRepository = ProfileRepositoryImpl(apiClient);
+  static final ProfileViewModel profileViewModel = ProfileViewModel(profileRepository);
 
   // ← NUEVO: conecta el 401 con el logout
   static void init() {
