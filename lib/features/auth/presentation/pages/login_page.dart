@@ -31,35 +31,29 @@ class _LoginPageState extends State<LoginPage> {
     final ok = await vm.login(_emailCtrl.text.trim(), _passCtrl.text);
     if (!mounted) return;
     if (ok) {
-        
       await context.read<ProfileViewModel>().loadProfile();
-    
       if (!mounted) return;
-    
+
       final profileVM = context.read<ProfileViewModel>();
-    
+      if (profileVM.profile == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('No se pudo cargar tu perfil'),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
+        );
+        return;
+      }
+
       // ADMIN → lista normal
       if (profileVM.isAdmin) {
-        Navigator.pushReplacementNamed(
-          context,
-          AppRoutes.orderList,
-        );
-      }
-    
-      // CASHIER → vista cajero
-      else if (profileVM.isCashier) {
-        Navigator.pushReplacementNamed(
-          context,
-          '/cashier',
-        );
-      }
-    
-      // WAITER → crear pedidos
-      else {
-        Navigator.pushReplacementNamed(
-          context,
-          'orderList',
-        );
+        Navigator.pushReplacementNamed(context, AppRoutes.orderList);
+      } else if (profileVM.isCashier) {
+        // CASHIER → vista cajero
+        Navigator.pushReplacementNamed(context, AppRoutes.cashier);
+      } else {
+        // WAITER → lista de pedidos
+        Navigator.pushReplacementNamed(context, AppRoutes.orderList);
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

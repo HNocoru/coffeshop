@@ -1,5 +1,7 @@
+import 'package:coffeshop/core/routes/app_routes.dart';
+import 'package:coffeshop/core/routes/navigation.dart';
 import 'package:coffeshop/core/utils/view_state.dart';
-import 'package:coffeshop/features/profile/presentation/page/edit_profile_page.dart';
+import 'package:coffeshop/features/auth/presentation/viewmodels/auth_viewmodel.dart';
 import 'package:coffeshop/features/profile/presentation/viewmodel/profile_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -33,9 +35,9 @@ class _ProfilePageState extends State<ProfilePage> {
           if (vm.profile != null)
             IconButton(
               icon: const Icon(Icons.edit_outlined),
-              onPressed: () => Navigator.push(
+              onPressed: () => Navigator.pushNamed(
                 context,
-                MaterialPageRoute(builder: (_) => const EditProfilePage()),
+                AppRoutes.editProfile,
               ),
             ),
         ],
@@ -108,10 +110,20 @@ class _ProfileBody extends StatelessWidget {
         FilledButton.icon(
           icon: const Icon(Icons.edit),
           label: const Text('Editar perfil'),
-          onPressed: () => Navigator.push(
+          onPressed: () => Navigator.pushNamed(
             context,
-            MaterialPageRoute(builder: (_) => const EditProfilePage()),
+            AppRoutes.editProfile,
           ),
+        ),
+        const SizedBox(height: 12),
+        OutlinedButton.icon(
+          icon: const Icon(Icons.logout),
+          label: const Text('Cerrar sesión'),
+          onPressed: () async {
+            await context.read<AuthViewModel>().logout();
+            if (!context.mounted) return;
+            redirectToLogin();
+          },
         ),
       ],
     );

@@ -1,5 +1,6 @@
 // lib/core/di/injector.dart — agregar auth
 import 'package:coffeshop/core/network/api_client.dart';
+import 'package:coffeshop/core/routes/navigation.dart';
 import 'package:coffeshop/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:coffeshop/features/auth/domain/repositories/auth_repository.dart';
 import 'package:coffeshop/features/auth/presentation/viewmodels/auth_viewmodel.dart';
@@ -34,6 +35,7 @@ class Injector {
   static void init() {
     apiClient.onUnauthorized = () {
       authViewModel.logout();
+      redirectToLogin();
     };
   }
 }

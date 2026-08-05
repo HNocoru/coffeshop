@@ -6,6 +6,7 @@ import 'package:coffeshop/features/orders/presentation/pages/cashier_page.dart';
 import 'package:coffeshop/features/orders/presentation/pages/order_detail_page.dart';
 import 'package:coffeshop/features/orders/presentation/pages/order_list_page.dart';
 import 'package:coffeshop/features/products/presentation/pages/menu_page.dart';
+import 'package:coffeshop/features/profile/presentation/page/edit_profile_page.dart';
 import 'package:coffeshop/features/profile/presentation/page/profile_page.dart';
 import 'package:flutter/material.dart';
 
@@ -34,6 +35,9 @@ class AppRouter {
 
       case AppRoutes.profile:
         return MaterialPageRoute(builder: (_) => const ProfilePage());
+
+      case AppRoutes.editProfile:
+        return MaterialPageRoute(builder: (_) => const EditProfilePage());
 
       case AppRoutes.orderDetail:
         final args = settings.arguments;

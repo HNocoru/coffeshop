@@ -211,36 +211,23 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                   ),
                 ),
               ),
-
+ 
               const SizedBox(height: 16),
 
               // ── Avanzar estado ───────────────────────────────
-              if (
-                order.nextStatus != null &&
-                (
-                  // Si NO es mesero → puede avanzar siempre
-                  !profileVM.isWaiter ||
-              
-                  // Si es mesero → solo cuando esté READY
-                  order.status == OrderStatus.ready
-                )
-              ) ...[
+              if (order.nextStatus != null && !profileVM.isWaiter) ...[
                 FilledButton.icon(
                   icon: const Icon(Icons.arrow_forward),
                   label: Text('Pasar a: ${order.nextStatus!.label}'),
                   onPressed: () => _advanceStatus(order),
                 ),
-              
                 const SizedBox(height: 8),
               ],
-              
               // ── Eliminar ─────────────────────────────────────
-              if (order.status == OrderStatus.delivered) ...[
+              if (order.status == OrderStatus.ready) ...[
                 OutlinedButton(
                   onPressed: () => _confirmDelete(order),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: Colors.red,
-                  ),
+                  style: OutlinedButton.styleFrom(foregroundColor: Colors.red),
                   child: const Text('Eliminar pedido'),
                 ),
               ]

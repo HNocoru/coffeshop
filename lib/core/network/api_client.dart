@@ -22,8 +22,11 @@ class ApiClient {
   ApiClient();
 
   static String get baseUrl {
+    if (kIsWeb) {
+      return 'http://127.0.0.1:8000';
+    }
     if (Platform.isAndroid) {
-      return 'https://l7kjcnjq-8000.use2.devtunnels.ms';
+      return 'https://k9z0v6hf-8000.use2.devtunnels.ms';
     }
     return 'http://127.0.0.1:8000';
   }
